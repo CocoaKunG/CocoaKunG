@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,8 +8,18 @@
 </head>
 
 <body>
+  <!-- หน้าล็อกพี่ที่เด้งมาบังหน้าต่าง -->
+  <div id="lock-screen" class="hidden">
+    <div class="lock-container">
+      <p>กำลังตรวจสอบข้อมูลของคุณ...</p>
+      <div class="status-bar">
+        <div class="status-fill"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="header">
-        <div class="title">CocoaKunG</div>
+    <div class="title">CocoaKunG</div>
     <div class="dark-mode-toggle">
       <img src="https://img2.pic.in.th/pic/BackgroundEraser_20240818_201226766.png" alt="Light Mode" id="light-mode-icon" class="mode-icon">
       <img src="https://img5.pic.in.th/file/secure-sv1/BackgroundEraser_20240818_200854217.png" alt="Dark Mode" id="dark-mode-icon" class="mode-icon hidden">
@@ -30,5 +39,4 @@
 
   <script src="script.js"></script>
 </body>
-
 </html>
