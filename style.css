@@ -1,194 +1,53 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #f5f5f5;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.header {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  border-bottom: 2px solid #ff9800; /* Orange border */
-  color: #333;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.header .title {
-  font-weight: bold; /* Make text bold */
-  color: #333; /* Default text color */
-  font-size: 24px; /* Increase font size */
-  transition: color 0.3s;
-}
-
-.dark-mode .header {
-  background-color: #1e1e1e;
-  border-bottom: 2px solid #ff9800;
-}
-
-.dark-mode .header .title {
-  color: #ffffff; /* White text color in dark mode */
-}
-
-.dark-mode .container {
-  background-color: #1e1e1e;
-  color: #e0e0e0;
-}
-
-.dark-mode .container input[type="text"] {
-  background-color: #333;
-  border: 1px solid #555;
-  color: #e0e0e0;
-}
-
-.dark-mode .container button {
-  background-color: #ff9800;
-}
-
-.dark-mode .footer {
-  color: #e0e0e0;
-}
-
-.dark-mode .footer strong {
-  color: #ff9800;
-}
-
-.container {
-  text-align: center;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 350px; /* Adjust width */
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.container h2 {
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-.container input[type="text"] {
-  padding: 10px; /* Adjust padding */
-  width: 100%;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.container button {
-  background-color: #ff9800;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  width: 100%;
-  max-width: 200px;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-}
-
-.container button:hover {
-  background-color: #e68a00;
-}
-
-.footer {
-  margin-top: 30px;
-  text-align: center;
-  font-size: 14px;
-  color: #333;
-}
-
-.footer p {
-  margin: 5px 0;
-}
-
-.footer strong {
-  color: #ff9800;
-}
-
-@media (min-width: 768px) {
-  .header {
-    padding: 15px 30px;
-  }
-
-  .container {
-    padding: 30px;
-  }
-
-  .container h2 {
-    font-size: 20px;
-  }
-
-  .container input[type="text"] {
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  .container button {
-    padding: 12px 30px;
-    font-size: 18px;
-  }
-}
-
-/* Dark Mode Styles */
-body.dark-mode {
-  background-color: #121212;
-  color: #e0e0e0;
-}
-
-body.dark-mode .header {
-  background-color: #1e1e1e;
-  border-bottom: 2px solid #ff9800;
-}
-
-body.dark-mode .container {
-  background-color: #1e1e1e;
-  color: #e0e0e0;
-}
-
-body.dark-mode .container input[type="text"] {
-  background-color: #333;
-  border: 1px solid #555;
-  color: #e0e0e0;
-}
-
-body.dark-mode .container button {
-  background-color: #ff9800;
-}
-
-body.dark-mode .footer {
-  color: #e0e0e0;
-}
-
-body.dark-mode .footer strong {
-  color: #ff9800;
-}
-
-/* Icon size */
-.mode-icon {
-  width: 32px; /* Increased size */
-  height: 32px; /* Increased size */
-  cursor: pointer;
-  margin-left: 10px;
-}
-
+/* ซ่อนหน้าล็อก */
 .hidden {
   display: none;
-  }
+}
+
+/* หน้าล็อกพี่ที่บังหน้าต่าง */
+#lock-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lock-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #ff66b2; /* กรอบสีชมพู */
+}
+
+.status-bar {
+  width: 100%;
+  background-color: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.status-fill {
+  width: 0;
+  height: 10px;
+  background-color: #ff66b2;
+  border-radius: 10px;
+  animation: loading 3s linear forwards;
+}
+
+@keyframes loading {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* การตั้งค่าคล้ายกับที่คุณมีอยู่แล้ว เช่น dark mode */
+.dark-mode .lock-container {
+  background-color: #333;
+  color: #fff;
+  border-color: #ff66b2;
+}
