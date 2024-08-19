@@ -28,6 +28,7 @@ body {
 .header .title {
   font-weight: bold; /* Make text bold */
   color: #333; /* Default text color */
+  font-size: 24px; /* Increase font size */
   transition: color 0.3s;
 }
 
@@ -144,4 +145,50 @@ body {
     padding: 12px 30px;
     font-size: 18px;
   }
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode .header {
+  background-color: #1e1e1e;
+  border-bottom: 2px solid #ff9800;
+}
+
+body.dark-mode .container {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark-mode .container input[type="text"] {
+  background-color: #333;
+  border: 1px solid #555;
+  color: #e0e0e0;
+}
+
+body.dark-mode .container button {
+  background-color: #ff9800;
+}
+
+body.dark-mode .footer {
+  color: #e0e0e0;
+}
+
+body.dark-mode .footer strong {
+  color: #ff9800;
+}
+
+/* Icon size */
+.mode-icon {
+  width: 32px; /* Increased size */
+  height: 32px; /* Increased size */
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.hidden {
+  display: none;
   }
