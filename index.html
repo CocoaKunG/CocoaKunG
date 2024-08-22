@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CocoaKunG Support</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <!-- ส่วนหัวของเว็บไซต์ -->
+  <div class="header">
+    <div class="title">CocoaKunG Support</div>
+    <div class="coin-info">
+      <span id="coin-balance"></span>
+      <div class="dark-mode-toggle">
+        <img src="https://img2.pic.in.th/pic/BackgroundEraser_20240818_201226766.png" alt="Light Mode" id="light-mode-icon" class="mode-icon hidden">
+        <img src="https://img5.pic.in.th/file/secure-sv1/BackgroundEraser_20240818_200854217.png" alt="Dark Mode" id="dark-mode-icon" class="mode-icon">
+      </div>
+    </div>
+  </div>
+
+  <!-- หน้าต่างเข้าสู่ระบบ -->
+  <div class="login-container">
+    <h2>เข้าสู่ระบบ</h2>
+    <input type="text" id="username" placeholder="ชื่อผู้ใช้" required>
+    <input type="password" id="password" placeholder="รหัสผ่าน" required>
+    <button id="login-btn">เข้าสู่ระบบ</button>
+    <p id="login-error" class="error-message"></p>
+  </div>
+
+  <!-- ส่วนอื่นของเว็บไซต์ -->
+  <div class="container">
+    <h2>กรุณาระบุเบอร์ของคุณ</h2>
+    <input type="text" placeholder="เบอร์โทรศัพท์ของคุณ">
+    <button>เริ่มการตรวจสอบ</button>
+  </div>
+
+  <footer class="footer">
+    <p>เว็บไซต์นี้จัดทำโดย <strong>CocoaKunG</strong></p>
+    <p>© 2024 CocoaKunG. All Rights Reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
