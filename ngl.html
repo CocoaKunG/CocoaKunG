@@ -1,1 +1,127 @@
-//spam ngl
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CocoaKunG NGL</title>
+    <link rel="icon" href="https://img5.pic.in.th/file/secure-sv1/81886c3ac80db7d613194143cd712f99.jpg" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            color: #FFA500;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .button {
+            background-color: #FFA500;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .button:hover {
+            background-color: #ff8c00;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>CocoaKunG NGL Tool</h2>
+        <input type="text" id="ngl-link" placeholder="https://ngl.link/username">
+        <button class="button" onclick="sendMessage()">เสร็จสิ้น</button>
+        <div class="error" id="error-message"></div>
+        <div class="footer">เครดิต: CocoaKunG</div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const nglLink = document.getElementById('ngl-link').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (!nglLink.includes('https://ngl.link/')) {
+                errorMessage.textContent = "ลิ้งค์ไม่ถูกต้อง";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            // ตรวจสอบ cooldown
+            const lastSendTime = localStorage.getItem('lastSendTime');
+            const currentTime = new Date().getTime();
+
+            if (lastSendTime && (currentTime - lastSendTime < 5 * 60 * 1000)) {
+                errorMessage.textContent = "กรุณารอสักครู่ก่อนจะกดใหม่";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            // ถ้าผ่านเงื่อนไข ให้ส่งข้อความ
+            localStorage.setItem('lastSendTime', currentTime);
+            errorMessage.style.display = "none";
+
+            // เรียกใช้งาน API ผ่าน Python (คุณต้องการ backend ในการทำงานนี้จริง ๆ)
+            fetch('/send-ngl', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nglLink: nglLink,
+                    message: "CocoaKunG ส่งมา",
+                    count: 5
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('ส่งข้อความสำเร็จ');
+                } else {
+                    errorMessage.textContent = "เกิดข้อผิดพลาดในการส่งข้อความ";
+                    errorMessage.style.display = "block";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
