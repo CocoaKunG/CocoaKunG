@@ -3,149 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CocoaKunG NGL</title>
-    <link rel="icon" href="https://img5.pic.in.th/file/secure-sv1/81886c3ac80db7d613194143cd712f99.jpg" type="image/png">
+    <title>CocoaKunG NGL ส่งข้อความ</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            background-color: #f9f9f9;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f5f5f5;
+            margin: 0;
         }
-
         .container {
-            background-color: white;
+            background-color: #ffffff;
+            border: 2px solid #f57c00;
+            border-radius: 10px;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 300px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         }
-
         .container h2 {
+            color: #f57c00;
             margin-bottom: 20px;
-            color: #FFA500;
         }
-
-        input[type="text"] {
-            width: 100%;
+        .container input[type="text"],
+        .container select {
+            width: calc(100% - 20px);
             padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
-
-        .button {
-            background-color: #FFA500;
+        .container button {
+            background-color: #f57c00;
             color: white;
-            padding: 10px 20px;
+            padding: 10px;
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            border-radius: 5px;
             width: 100%;
+            cursor: pointer;
         }
-
-        .button:hover {
-            background-color: #ff8c00;
-        }
-
-        .error {
-            color: red;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .success {
-            color: green;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #888;
+        .container .message {
+            color: #4CAF50;
+            margin-top: 15px;
         }
     </style>
+    <script src="script.js"></script>
 </head>
 <body>
     <div class="container">
-        <h2>CocoaKunG NGL Tool</h2>
-        <input type="text" id="ngl-link" placeholder="https://ngl.link/username">
-        <button class="button" onclick="handleSubmit()">เสร็จสิ้น</button>
-        <div class="error" id="error-message"></div>
-        <div class="success" id="success-message">ส่งข้อความสำเร็จ</div>
-        <div class="footer">เครดิต: CocoaKunG</div>
+        <h2>ส่งข้อความ NGL</h2>
+        <input type="text" id="nglLink" placeholder="ใส่ลิงก์ NGL ของคุณ" />
+        <select id="messageType">
+            <option value="friendly">เป็นมิตร</option>
+            <option value="noob">พวก Noob</option>
+        </select>
+        <button onclick="sendNGLMessage()">เสร็จสิ้น</button>
+        <div id="messageStatus" class="message"></div>
     </div>
 
     <script>
-        function ngl(link, message) {
-            return fetch('https://ngl.link/api/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                    'sec-ch-ua': '"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-                    'accept': '*/*',
-                    'sec-ch-ua-mobile': '?0',
-                    'user-agent': navigator.userAgent,
-                    'sec-ch-ua-platform': '"Windows"',
-                    'origin': 'https://ngl.link',
-                    'sec-fetch-site': 'same-origin',
-                    'sec-fetch-mode': 'cors',
-                    'sec-fetch-dest': 'empty',
-                    'referer': link,
-                    'accept-language': 'th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7'
-                },
-                body: new URLSearchParams({
-                    'username': link.split('/').pop(),
-                    'question': message,
-                    'deviceId': '0',
-                })
-            }).then(response => response.status === 200);
-        }
+        const friendlyMessages = [
+            "หวัดดีนะ",
+            "วันนี้เป็นไงบ้าง",
+            "คิดถึงจังเลย",
+            "ชอบรอยยิ้มของคุณจัง",
+            "คุณเป็นคนที่พิเศษมากนะ",
+            "ขอให้วันนี้เป็นวันที่ดี",
+            "ทุกคนคิดถึงคุณนะ",
+            "ขอบคุณที่เป็นเพื่อนที่ดี",
+            "มีอะไรให้ช่วยไหม",
+            "คุณเป็นแรงบันดาลใจให้ฉัน"
+        ];
 
-        function handleSubmit() {
-            const nglLink = document.getElementById('ngl-link').value;
-            const errorMessage = document.getElementById('error-message');
-            const successMessage = document.getElementById('success-message');
+        const noobMessages = [
+            "noob noob",
+            "1-1 มาไก่",
+            "🐔🐔🐔",
+            "ไม่ได้ตึง",
+            "ez run noob"
+        ];
 
-            if (!nglLink.includes('https://ngl.link/')) {
-                errorMessage.textContent = "ลิ้งค์ไม่ถูกต้อง";
-                errorMessage.style.display = "block";
-                return;
-            }
-
-            // ตรวจสอบ cooldown
-            const lastSendTime = localStorage.getItem('lastSendTime');
-            const currentTime = new Date().getTime();
-
-            if (lastSendTime && (currentTime - lastSendTime < 5 * 60 * 1000)) {
-                errorMessage.textContent = "กรุณารอสักครู่ก่อนจะกดใหม่";
-                errorMessage.style.display = "block";
-                return;
-            }
-
-            localStorage.setItem('lastSendTime', currentTime);
-            errorMessage.style.display = "none";
-
-            // ส่งข้อความทดสอบก่อน
-            ngl(nglLink, 'CocoaKunG : 😘').then(success => {
-                if (success) {
-                    successMessage.style.display = "block";
-
-                    // ส่งข้อความจริง 5 ครั้งหลังจากข้อความทดสอบ
-                    for (let i = 0; i < 5; i++) {
-                        ngl(nglLink, 'CocoaKunG ส่งมา');
-                    }
-                } else {
-                    errorMessage.textContent = "เกิดข้อผิดพลาดในการส่งข้อความ";
-                    errorMessage.style.display = "block";
-                }
-            });
+        function sendNGLMessage() {
+            const nglLink = document.getElementById("nglLink").value;
+            const messageType = document.getElementById("messageType").value;
+            const message = messageType === "friendly" ? friendlyMessages[Math.floor(Math.random() * friendlyMessages.length)] : noobMessages[Math.floor(Math.random() * noobMessages.length)];
+            ngl(nglLink, message);
         }
     </script>
 </body>
