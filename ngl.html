@@ -59,6 +59,18 @@
             display: none;
         }
 
+        .success {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
         .footer {
             margin-top: 20px;
             font-size: 14px;
@@ -74,11 +86,13 @@
         <div class="error" id="error-message"></div>
         <div class="footer">เครดิต: CocoaKunG</div>
     </div>
+    <div class="success" id="success-message">ทำงานสำเร็จ</div>
 
     <script>
         function sendMessage() {
             const nglLink = document.getElementById('ngl-link').value;
             const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
 
             if (!nglLink.includes('https://ngl.link/')) {
                 errorMessage.textContent = "ลิ้งค์ไม่ถูกต้อง";
@@ -96,31 +110,80 @@
                 return;
             }
 
-            // ถ้าผ่านเงื่อนไข ให้ส่งข้อความ
+            // ส่งข้อความทดสอบ "CocoaKunG : 😘"
             localStorage.setItem('lastSendTime', currentTime);
             errorMessage.style.display = "none";
+            sendTestMessage(nglLink).then(success => {
+                if (success) {
+                    showSuccessMessage();
 
-            // เรียกใช้งาน API ผ่าน Python (คุณต้องการ backend ในการทำงานนี้จริง ๆ)
-            fetch('/send-ngl', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    nglLink: nglLink,
-                    message: "CocoaKunG ส่งมา",
-                    count: 5
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('ส่งข้อความสำเร็จ');
+                    // ส่งข้อความจริง 5 ครั้งหลังจากข้อความทดสอบ
+                    sendActualMessage(nglLink);
                 } else {
                     errorMessage.textContent = "เกิดข้อผิดพลาดในการส่งข้อความ";
                     errorMessage.style.display = "block";
                 }
             });
+        }
+
+        function sendTestMessage(nglLink) {
+            return fetch('https://ngl.link/api/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'sec-ch-ua': '"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                    'accept': '*/*',
+                    'sec-ch-ua-mobile': '?0',
+                    'user-agent': navigator.userAgent,
+                    'sec-ch-ua-platform': '"Windows"',
+                    'origin': 'https://ngl.link',
+                    'sec-fetch-site': 'same-origin',
+                    'sec-fetch-mode': 'cors',
+                    'sec-fetch-dest': 'empty',
+                    'referer': nglLink,
+                    'accept-language': 'th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7'
+                },
+                body: new URLSearchParams({
+                    'username': nglLink.split('/').pop(),
+                    'question': 'CocoaKunG : 😘',
+                    'deviceId': '0',
+                })
+            }).then(response => response.status === 200);
+        }
+
+        function sendActualMessage(nglLink) {
+            for (let i = 0; i < 5; i++) {
+                fetch('https://ngl.link/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'sec-ch-ua': '"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
+                        'accept': '*/*',
+                        'sec-ch-ua-mobile': '?0',
+                        'user-agent': navigator.userAgent,
+                        'sec-ch-ua-platform': '"Windows"',
+                        'origin': 'https://ngl.link',
+                        'sec-fetch-site': 'same-origin',
+                        'sec-fetch-mode': 'cors',
+                        'sec-fetch-dest': 'empty',
+                        'referer': nglLink,
+                        'accept-language': 'th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7'
+                    },
+                    body: new URLSearchParams({
+                        'username': nglLink.split('/').pop(),
+                        'question': 'CocoaKunG ส่งมา',
+                        'deviceId': '0',
+                    })
+                });
+            }
+        }
+
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('success-message');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 2000);  // แสดงป๊อปอัพ 2 วินาที
         }
     </script>
 </body>
