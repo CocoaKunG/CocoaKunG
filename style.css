@@ -1,4 +1,4 @@
-/* เริ่มต้นการกำหนด keyframes สำหรับการขยายและหมุน */
+/* กำหนดการเปลี่ยนสีของแอนิเมชัน */
 @-webkit-keyframes grow {
   0%, 100% {
     -webkit-transform: scale(1);
@@ -35,10 +35,28 @@
   }
 }
 
-/* กำหนดการทำงานของแอนิเมชั่นในคลาส .merge */
+/* เพิ่มการสลับสีระหว่างโทนสีม่วง */
+@-webkit-keyframes colorChange {
+  0%, 100% {
+    background-color: #8A2BE2; /* สีม่วงเข้ม */
+  }
+  50% {
+    background-color: #DA70D6; /* สีชมพูม่วง */
+  }
+}
+
+@keyframes colorChange {
+  0%, 100% {
+    background-color: #8A2BE2; /* สีม่วงเข้ม */
+  }
+  50% {
+    background-color: #DA70D6; /* สีชมพูม่วง */
+  }
+}
+
 .merge {
-  -webkit-animation: spin 1.33333s infinite linear;
-          animation: spin 1.33333s infinite linear;
+  -webkit-animation: spin 1.33333s infinite linear, colorChange 2s infinite ease-in-out;
+          animation: spin 1.33333s infinite linear, colorChange 2s infinite ease-in-out;
   height: 30px;
   position: relative;
   width: 30px;
@@ -51,7 +69,6 @@
   -webkit-animation: grow 2s infinite ease backwards;
           animation: grow 2s infinite ease backwards;
   border-radius: 100%;
-  background: var(--primary, #FF4500); /* ใช้สีตัวแปร --primary หรือสีส้ม */
   opacity: .75;
   position: absolute;
   -webkit-transform-origin: -200% -80%;
@@ -59,7 +76,6 @@
 }
 
 .merge:before {
-  background: var(--secondary, #00BFFF); /* ใช้สีตัวแปร --secondary หรือสีน้ำเงิน */
   -webkit-transform-origin: 200% 80%;
           transform-origin: 200% 80%;
 }
