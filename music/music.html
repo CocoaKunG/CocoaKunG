@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เล่นเพลงจาก YouTube</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 100%);
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid #8e24aa;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #6a1b9a;
+        }
+
+        button {
+            background-color: #8e24aa;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6a1b9a;
+        }
+
+        iframe {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>เล่นเพลงจาก YouTube</h1>
+        <input type="text" id="youtubeUrl" placeholder="วางลิงก์ YouTube ที่นี่">
+        <button onclick="playMusic()">เล่นเพลง</button>
+
+        <!-- Iframe สำหรับเล่นเพลง -->
+        <iframe id="youtubePlayer" width="0" height="0" allow="autoplay"></iframe>
+    </div>
+
+    <script>
+        function playMusic() {
+            const url = document.getElementById('youtubeUrl').value;
+            const youtubePlayer = document.getElementById('youtubePlayer');
+
+            // แปลงลิงก์ YouTube ให้อยู่ในรูปแบบที่สามารถใช้กับ Iframe ได้
+            const videoId = url.split('v=')[1];
+            const ampersandPosition = videoId.indexOf('&');
+            if (ampersandPosition != -1) {
+                videoId = videoId.substring(0, ampersandPosition);
+            }
+
+            // ตั้งค่า Iframe เพื่อเล่นเพลง
+            youtubePlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}`;
+            youtubePlayer.style.display = "block";
+        }
+    </script>
+</body>
+</html>
