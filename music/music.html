@@ -22,6 +22,8 @@
             border-radius: 1rem;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 300px;
+            position: relative;
         }
 
         input[type="text"] {
@@ -49,6 +51,28 @@
             background-color: #6a1b9a;
         }
 
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress {
+            height: 1rem;
+            width: 0;
+            background-color: #76c7c0;
+            border-radius: 0.5rem;
+            transition: width 0.3s ease;
+        }
+
+        .credit {
+            font-size: 0.8rem;
+            color: #8e24aa;
+            margin-top: 1rem;
+        }
+
         iframe {
             display: none;
         }
@@ -60,32 +84,51 @@
         <input type="text" id="youtubeUrl" placeholder="วางลิงก์ YouTube ที่นี่">
         <button onclick="playMusic()">เล่นเพลง</button>
 
+        <!-- Progress bar -->
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
         <!-- Iframe สำหรับเล่นเพลง -->
         <iframe id="youtubePlayer" width="0" height="0" allow="autoplay"></iframe>
+
+        <!-- เครดิต -->
+        <div class="credit">เครดิต: CocoaKunG</div>
     </div>
 
     <script>
         function playMusic() {
             const url = document.getElementById('youtubeUrl').value;
             const youtubePlayer = document.getElementById('youtubePlayer');
+            const progressBar = document.getElementById('progress');
+            
+            // รีเซ็ต progress bar
+            progressBar.style.width = '0%';
 
             // ตรวจสอบรูปแบบของ URL และแยก videoId
             let videoId;
 
             if (url.includes('youtu.be')) {
-                // ถ้าเป็นลิงก์แบบย่อ youtu.be
                 videoId = url.split('youtu.be/')[1].split('?')[0];
             } else if (url.includes('youtube.com')) {
-                // ถ้าเป็นลิงก์แบบเต็ม youtube.com
                 videoId = url.split('v=')[1].split('&')[0];
             } else {
                 alert('กรุณาใส่ลิงก์ YouTube ที่ถูกต้อง');
                 return;
             }
 
-            // ตั้งค่า Iframe เพื่อเล่นเพลง
-            youtubePlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}`;
-            youtubePlayer.style.display = "block";
+            // ตั้งเวลาในการแสดง progress bar และโหลดเพลง
+            let progress = 0;
+            const interval = setInterval(() => {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    youtubePlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}`;
+                    youtubePlayer.style.display = "block";
+                } else {
+                    progress += 10;
+                    progressBar.style.width = progress + '%';
+                }
+            }, 300); // เปลี่ยนเป็น 300ms ต่อครั้งเพื่อใช้เวลา 3 วินาที
         }
     </script>
 </body>
