@@ -69,11 +69,18 @@
             const url = document.getElementById('youtubeUrl').value;
             const youtubePlayer = document.getElementById('youtubePlayer');
 
-            // แปลงลิงก์ YouTube ให้อยู่ในรูปแบบที่สามารถใช้กับ Iframe ได้
-            const videoId = url.split('v=')[1];
-            const ampersandPosition = videoId.indexOf('&');
-            if (ampersandPosition != -1) {
-                videoId = videoId.substring(0, ampersandPosition);
+            // ตรวจสอบรูปแบบของ URL และแยก videoId
+            let videoId;
+
+            if (url.includes('youtu.be')) {
+                // ถ้าเป็นลิงก์แบบย่อ youtu.be
+                videoId = url.split('youtu.be/')[1].split('?')[0];
+            } else if (url.includes('youtube.com')) {
+                // ถ้าเป็นลิงก์แบบเต็ม youtube.com
+                videoId = url.split('v=')[1].split('&')[0];
+            } else {
+                alert('กรุณาใส่ลิงก์ YouTube ที่ถูกต้อง');
+                return;
             }
 
             // ตั้งค่า Iframe เพื่อเล่นเพลง
