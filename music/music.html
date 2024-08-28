@@ -130,6 +130,15 @@
                 }
             }, 300); // เปลี่ยนเป็น 300ms ต่อครั้งเพื่อใช้เวลา 3 วินาที
         }
+
+        document.addEventListener('visibilitychange', function() {
+            const youtubePlayer = document.getElementById('youtubePlayer');
+            if (document.hidden) {
+                youtubePlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+            } else {
+                youtubePlayer.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            }
+        });
     </script>
 </body>
 </html>
