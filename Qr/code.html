@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -36,83 +37,65 @@
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
-            font-size: 1rem;
             cursor: pointer;
         }
 
         button:hover {
-            background-color: #e67e22;
+            background-color: #e68900;
         }
 
-        .qr-container {
-            margin-top: 20px;
-        }
-
-        .qr-container img {
-            display: none;
-            margin-top: 10px;
-        }
-
-        #download-button {
-            display: none;
-            background-color: #28a745;
-            margin-top: 20px;
+        .qrcode-container {
+            margin: 20px 0;
         }
 
         .credit {
-            position: absolute;
-            bottom: 20px;
-            text-align: center;
-            color: #888;
+            margin-top: 20px;
+            color: #555;
         }
     </style>
 </head>
 <body>
 
     <h1>QR Code Generator</h1>
-    <input type="text" id="text-input" placeholder="ใส่ข้อความของคุณที่นี่">
-    <button id="generate-button">สร้าง QR Code</button>
+    <input type="text" id="textInput" placeholder="กรอกข้อความ...">
+    <button id="generateBtn">สร้าง QR Code</button>
 
-    <div class="qr-container">
-        <img id="qr-code" alt="Generated QR Code">
-        <a id="download-button" download="qrcode.png">
-            <button>ดาวน์โหลด QR Code</button>
-        </a>
-    </div>
+    <div class="qrcode-container" id="qrcode"></div>
 
-    <div class="credit">
-        <p>สร้างโดย <b>CocoaKunG</b></p>
-    </div>
+    <div class="credit">สร้างโดย CocoaKunG</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script>
-        const generateButton = document.getElementById('generate-button');
-        const qrImage = document.getElementById('qr-code');
-        const textInput = document.getElementById('text-input');
-        const downloadButton = document.getElementById('download-button');
+        document.getElementById("generateBtn").addEventListener("click", function () {
+            const text = document.getElementById("textInput").value;
+            
+            if (text) {
+                // ลบปุ่มสร้าง QR code
+                document.getElementById("generateBtn").remove();
 
-        generateButton.addEventListener('click', function() {
-            const text = textInput.value.trim();
-            if (text === "") {
-                alert("กรุณากรอกข้อความก่อนสร้าง QR Code");
-                return;
+                // สร้าง QR code
+                const qrcodeContainer = document.getElementById("qrcode");
+                qrcodeContainer.innerHTML = "";  // ล้าง QR code เก่า
+                const qrcode = new QRCode(qrcodeContainer, {
+                    text: text,
+                    width: 200,
+                    height: 200,
+                    colorDark: "#000000",    // สี QR code
+                    colorLight: "#ffffff",   // สีพื้นหลัง
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+
+                // เพิ่มปุ่มดาวน์โหลด QR code
+                const downloadBtn = document.createElement("button");
+                downloadBtn.innerText = "ดาวน์โหลด QR Code";
+                downloadBtn.onclick = function () {
+                    const img = qrcodeContainer.querySelector("img");
+                    const link = document.createElement("a");
+                    link.href = img.src;
+                    link.download = "qrcode.png";
+                    link.click();
+                };
+                qrcodeContainer.appendChild(downloadBtn);
             }
-
-            // สร้าง QR Code
-            const qr = new QRious({
-                element: qrImage,
-                value: text,
-                size: 250,
-                backgroundAlpha: 0, // ทำให้พื้นหลังโปร่งใส
-                foreground: '#ff9800', // สีส้มสำหรับ QR Code
-                level: 'H' // ระดับการแก้ไขความผิดพลาด (สูง)
-            });
-
-            qrImage.style.display = 'block'; // แสดง QR Code
-
-            // สร้างลิงก์ดาวน์โหลด
-            downloadButton.href = qrImage.src;
-            downloadButton.style.display = 'inline'; // แสดงปุ่มดาวน์โหลด
         });
     </script>
 
