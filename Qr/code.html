@@ -18,8 +18,28 @@
             margin: 0;
         }
 
+        /* แถบสีม่วงด้านบน */
+        .header {
+            width: 100%;
+            height: 60px;
+            background-color: #9c27b0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
         h1 {
             color: #ff9800;
+            margin-top: 100px; /* ขยับลงมาจากแถบสีม่วง */
         }
 
         input[type="text"] {
@@ -48,19 +68,29 @@
             margin: 20px 0;
         }
 
+        /* ตกแต่งเครดิต */
         .credit {
             margin-top: 20px;
-            color: #555;
+            padding: 10px;
+            background-color: #9c27b0;
+            color: white;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <h1>QR Code Generator</h1>
+    <div class="header">
+        <h1>QR Code Generator</h1>
+    </div>
+
+    <!-- แสดง QR code ที่นี่ -->
+    <div class="qrcode-container" id="qrcode"></div>
+
     <input type="text" id="textInput" placeholder="กรอกข้อความ...">
     <button id="generateBtn">สร้าง QR Code</button>
-
-    <div class="qrcode-container" id="qrcode"></div>
 
     <div class="credit">สร้างโดย CocoaKunG</div>
 
