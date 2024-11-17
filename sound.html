@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ไฟล์เสียง</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e1e2f, #3e3e5e);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #ff9500;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+        }
+        .player-container {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        audio {
+            width: 100%;
+            margin: 15px 0;
+            outline: none;
+        }
+        .error {
+            color: #ff4d4d;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        footer a {
+            color: #ff9500;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>ไฟล์เสียง</h1>
+    <div class="player-container">
+        <audio id="audioPlayer" controls>
+            <source id="audioSource" src="" type="audio/mpeg">
+            Browser ของคุณไม่รองรับการเล่นไฟล์เสียง
+        </audio>
+        <p id="error" class="error" style="display: none;">
+            เกิดข้อผิดพลาด โปรดติดต่อผู้พัฒนา
+        </p>
+    </div>
+    <footer>
+        สร้างโดย <a href="#" target="_blank">CocoaKunG</a>
+    </footer>
+
+    <script>
+        // ดึงชื่อไฟล์จาก URL path
+        function getFileNameFromPath() {
+            const path = window.location.pathname;
+            const segments = path.split('/'); // แยก path ออกเป็นส่วน ๆ
+            return segments.pop(); // ดึงส่วนสุดท้าย (ชื่อไฟล์)
+        }
+
+        // ค้นหาไฟล์ในโฟลเดอร์ sound
+        function loadSound() {
+            const fileName = getFileNameFromPath();
+            const audioPlayer = document.getElementById('audioPlayer');
+            const audioSource = document.getElementById('audioSource');
+            const errorText = document.getElementById('error');
+
+            if (fileName) {
+                const soundPath = `sound/${fileName}`; // กำหนดพาธสำหรับไฟล์ในโฟลเดอร์ sound
+                fetch(soundPath, { method: 'HEAD' }) // ตรวจสอบว่าไฟล์มีอยู่หรือไม่
+                    .then((response) => {
+                        if (response.ok) {
+                            audioSource.src = soundPath;
+                            audioPlayer.load();
+                        } else {
+                            throw new Error('ไฟล์ไม่พบ');
+                        }
+                    })
+                    .catch(() => {
+                        errorText.textContent = `ไม่พบไฟล์เสียง: ${fileName}`;
+                        errorText.style.display = 'block';
+                    });
+            } else {
+                errorText.textContent = "ไม่พบชื่อไฟล์ใน URL โปรดตรวจสอบอีกครั้ง";
+                errorText.style.display = 'block';
+            }
+        }
+
+        // เรียกใช้งานฟังก์ชันเมื่อโหลดหน้า
+        window.onload = loadSound;
+    </script>
+</body>
+</html>
