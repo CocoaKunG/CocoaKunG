@@ -1,0 +1,103 @@
+/* โหลดฟอนต์ "ข่อยคิดฮอดเจ้า" */
+@font-face {
+    font-family: 'KoiKhidHodJao';
+    src: url('fonts/ข่อยคิดฮอดเจ้า.ttf') format('truetype');
+}
+
+/* การตั้งค่าทั่วไปของ body */
+body {
+    font-family: 'KoiKhidHodJao', Arial, sans-serif;
+    background-color: white;
+    color: #4B0082;
+    margin: 0;
+    padding: 20px;
+}
+
+/* ตั้งค่าหัวข้อ */
+h1, h2 {
+    text-align: center;
+    color: #4B0082;
+}
+
+/* การตั้งค่าฟอร์ม */
+form {
+    margin: 0 auto;
+    max-width: 600px;
+    background-color: #f5f5ff;
+    border: 2px solid #4B0082;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'KoiKhidHodJao', Arial, sans-serif; /* ใช้ฟอนต์ข่อยคิดฮอดเจ้า */
+}
+
+/* ตั้งค่าฉลากข้อความ */
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+/* ตั้งค่าช่อง input */
+input[type="text"], input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #4B0082;
+    border-radius: 5px;
+    font-family: 'KoiKhidHodJao', Arial, sans-serif; /* ใช้ฟอนต์ข่อยคิดฮอดเจ้า */
+    font-size: 16px; /* ขนาดฟอนต์ */
+    color: #4B0082; /* สีข้อความ */
+    background-color: #ffffff; /* สีพื้นหลัง */
+}
+
+/* ตั้งค่าปุ่ม */
+button {
+    background-color: #4B0082;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'KoiKhidHodJao', Arial, sans-serif; /* ใช้ฟอนต์ข่อยคิดฮอดเจ้า */
+}
+
+button:hover {
+    background-color: #6a0dad;
+}
+
+/* ตั้งค่าตาราง */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: 'KoiKhidHodJao', Arial, sans-serif; /* ใช้ฟอนต์ข่อยคิดฮอดเจ้า */
+}
+
+th, td {
+    border: 1px solid #4B0082;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #4B0082;
+    color: white;
+}
+
+/* ตั้งค่าฟุตเตอร์ */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #4B0082;
+    font-family: 'KoiKhidHodJao', Arial, sans-serif; /* ใช้ฟอนต์ข่อยคิดฮอดเจ้า */
+}
+
+footer span {
+    font-size: 24px;
+    display: block;
+    margin-top: 5px;
+    text-shadow: 1px 1px 5px rgba(75, 0, 130, 0.5);
+}

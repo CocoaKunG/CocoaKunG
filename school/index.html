@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมคำนวณค่า y</title>
+    <link rel="icon" href="https://img2.pic.in.th/pic/IMG_20240430_120908_163.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>โปรแกรมคำนวณค่า y</h1>
+    <form id="inputForm">
+        <label for="equation">ใส่สมการ (เช่น x - 3y = 9 หรือ x + y = 2):</label>
+        <input type="text" id="equation" required>
+        <label for="xStart">ค่าเริ่มต้นของ x:</label>
+        <input type="number" id="xStart" required>
+        <label for="xEnd">ค่าจบของ x:</label>
+        <input type="number" id="xEnd" required>
+        <button type="submit">คำนวณ</button>
+    </form>
+    <h2>ผลลัพธ์:</h2>
+    <table border="1" id="resultTable">
+        <tr>
+            <th>x</th>
+            <th>y</th>
+        </tr>
+    </table>
+    <footer>
+        <span>© CocoaKunG</span>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
