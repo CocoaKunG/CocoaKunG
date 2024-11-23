@@ -81,7 +81,7 @@
 <body>
     <h1>โปรแกรมคำนวณค่า y</h1>
     <form id="inputForm">
-        <label for="equation">ใส่สมการ (เช่น x - 3y = 9):</label>
+        <label for="equation">ใส่สมการ (เช่น x - 3y = 9 หรือ x + 2 = y):</label>
         <input type="text" id="equation" required>
         <label for="xStart">ค่าเริ่มต้นของ x:</label>
         <input type="number" id="xStart" required>
@@ -110,23 +110,23 @@
             const xStart = parseInt(document.getElementById('xStart').value);
             const xEnd = parseInt(document.getElementById('xEnd').value);
 
-            // แยกสมการจากรูปแบบ x, y, ค่าคงที่
+            // ตรวจสอบและแยกสมการ
             const match = equation.match(/([+-]?\d*\.?\d*)x\s*([+-]?\s*\d*\.?\d*)y\s*=\s*([+-]?\d*\.?\d*)/);
             
-            // ตรวจสอบรูปแบบสมการ
             if (!match) {
-                const simpleMatch = equation.match(/([+-]?\d*\.?\d*)x\s*([+-]?\d*\.?\d*)/);
-                if (simpleMatch) {
-                    // หากสมการมีแค่ x และค่าคงที่
-                    const a = parseFloat(simpleMatch[1] || 1);
-                    const b = parseFloat(simpleMatch[2] || 0);
+                // สำหรับสมการในรูปที่ไม่มี y อยู่ในฝั่งซ้าย
+                const matchSimple = equation.match(/([+-]?\d*\.?\d*)x\s*([+-]?\d*\.?\d*)/);
+                if (matchSimple) {
+                    const a = parseFloat(matchSimple[1] || 1);
+                    const b = parseFloat(matchSimple[2] || 0);
                     const c = 0;
                     processEquation(a, b, c, xStart, xEnd);
                 } else {
-                    alert("รูปแบบสมการไม่ถูกต้อง! กรุณาใส่ในรูปแบบที่ถูกต้อง");
+                    // หากสมการไม่ตรงกับรูปแบบนี้
+                    alert("รูปแบบสมการไม่ถูกต้อง! กรุณาใส่ในรูปแบบที่ถูกต้อง เช่น x - y = 2 หรือ x + 2 = y");
                 }
             } else {
-                // หากสมการมี x, y และค่าคงที่
+                // สำหรับสมการทั่วไป x, y และค่าคงที่
                 const a = parseFloat(match[1] || 1);
                 const b = parseFloat(match[2].replace(/\s+/g, ''));
                 const c = parseFloat(match[3]);
