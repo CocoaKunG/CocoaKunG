@@ -3,197 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ทำเล่นๆ</title>
+    <title>Graph of Multiple Equations</title>
     <link rel="icon" href="https://img2.pic.in.th/pic/IMG_20240430_120908_163.jpg" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #4B0082;
             margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #1a1a1a, #2c2c54);
-            color: #e0e0e0;
+            padding: 20px;
         }
         h1, h2 {
             text-align: center;
-            color: #00d4ff;
+            color: #4B0082;
         }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
+        form {
+            margin: 0 auto;
+            max-width: 600px;
+            background-color: #f5f5ff;
+            border: 2px solid #4B0082;
             padding: 20px;
-            background: #1f1f1f;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
-        .equations {
-            margin-bottom: 20px;
+        label {
+            display: block;
+            margin: 10px 0 5px;
         }
-        .equation-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .equation-row input {
-            flex: 1;
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 20px);
             padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #444;
+            margin-bottom: 15px;
+            border: 1px solid #4B0082;
             border-radius: 5px;
-            background: #2f2f2f;
-            color: #fff;
         }
-        .equation-row button {
-            background-color: #00d4ff;
-            color: #fff;
+        button {
+            background-color: #4B0082;
+            color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
         }
-        .equation-row button:hover {
-            background-color: #00aacc;
+        button:hover {
+            background-color: #6a0dad;
         }
-        button.add-equation {
-            width: 100%;
-            background-color: #4caf50;
-            margin-top: 10px;
+        .remove-btn {
+            background-color: #ff4d4d;
+            margin-left: 10px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin: 20px 0;
         }
         th, td {
-            border: 1px solid #444;
-            padding: 8px;
+            border: 1px solid #4B0082;
+            padding: 10px;
             text-align: center;
-            background: #2f2f2f;
-            color: #fff;
         }
         th {
-            background: #00d4ff;
+            background-color: #4B0082;
+            color: white;
         }
         canvas {
-            margin: 20px auto;
             display: block;
-            max-width: 100%;
+            margin: 20px auto;
+            max-width: 800px;
         }
         footer {
             text-align: center;
-            margin-top: 20px;
-            font-size: 16px;
-            color: #aaa;
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4B0082;
         }
         footer span {
-            color: #00d4ff;
-            font-weight: bold;
+            font-size: 24px;
+            display: block;
+            margin-top: 5px;
+            text-shadow: 1px 1px 5px rgba(75, 0, 130, 0.5);
         }
     </style>
 </head>
 <body>
-    <h1>โปรแกรมกราฟสมการหลายตัว</h1>
-    <div class="container">
-        <div class="equations">
-            <div class="equation-row">
-                <input type="text" class="equation-input" placeholder="ใส่สมการ (เช่น x - 3y = 9)" required>
-                <button class="remove-equation" onclick="removeEquation(this)">ลบ</button>
-            </div>
+    <h1>โปรแกรมหาค่า y และสร้างกราฟ</h1>
+    <form id="inputForm">
+        <div id="equationContainer">
+            <label for="equation">ใส่สมการ (เช่น x - 3y = 9):</label>
+            <input type="text" name="equation" required>
         </div>
-        <button class="add-equation" onclick="addEquation()">+ เพิ่มสมการ</button>
-        <div style="margin-top: 20px;">
-            <label>ค่าเริ่มต้น x: <input type="number" id="xStart" value="-10"></label>
-            <label>ค่าจบ x: <input type="number" id="xEnd" value="10"></label>
-        </div>
-        <button onclick="calculateAndPlot()">คำนวณและสร้างกราฟ</button>
-    </div>
-    <canvas id="graph" width="600" height="400"></canvas>
-    <div id="results"></div>
+        <button type="button" id="addEquationBtn">เพิ่มสมการ</button>
+        <label for="xStart">ค่าเริ่มต้นของ x:</label>
+        <input type="number" id="xStart" required>
+        <label for="xEnd">ค่าจบของ x:</label>
+        <input type="number" id="xEnd" required>
+        <button type="submit">คำนวณ</button>
+    </form>
+    <h2>ผลลัพธ์:</h2>
+    <div id="tablesContainer"></div>
+    <canvas id="graph"></canvas>
     <footer>
-        © <span>CocoaKunG</span>
+        <span>© CocoaKunG</span>
     </footer>
-
     <script>
-        const equationsDiv = document.querySelector('.equations');
-        const resultsDiv = document.getElementById('results');
-        const ctx = document.getElementById('graph').getContext('2d');
+        const form = document.getElementById('inputForm');
+        const equationContainer = document.getElementById('equationContainer');
+        const tablesContainer = document.getElementById('tablesContainer');
+        const graphCanvas = document.getElementById('graph');
+        const addEquationBtn = document.getElementById('addEquationBtn');
         let chart;
 
-        function addEquation() {
-            const equationRow = document.createElement('div');
-            equationRow.classList.add('equation-row');
-            equationRow.innerHTML = `
-                <input type="text" class="equation-input" placeholder="ใส่สมการ (เช่น x - 3y = 9)" required>
-                <button class="remove-equation" onclick="removeEquation(this)">ลบ</button>
+        addEquationBtn.addEventListener('click', () => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <input type="text" name="equation" required>
+                <button type="button" class="remove-btn">ลบ</button>
             `;
-            equationsDiv.appendChild(equationRow);
-        }
+            equationContainer.appendChild(div);
 
-        function removeEquation(button) {
-            button.parentElement.remove();
-        }
+            const removeBtn = div.querySelector('.remove-btn');
+            removeBtn.addEventListener('click', () => {
+                equationContainer.removeChild(div);
+            });
+        });
 
-        function calculateAndPlot() {
-            const equationInputs = document.querySelectorAll('.equation-input');
-            const xStart = parseFloat(document.getElementById('xStart').value);
-            const xEnd = parseFloat(document.getElementById('xEnd').value);
-            const equations = [];
-            equationInputs.forEach(input => equations.push(input.value));
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            const xValues = [];
-            const yValuesList = [];
-            for (let x = xStart; x <= xEnd; x++) {
-                xValues.push(x);
-                const yValues = [];
-                for (const equation of equations) {
-                    const match = equation.match(/(-?\d*)x\s*([-+]\s*\d*)y\s*=\s*(-?\d+)/);
-                    if (!match) {
-                        alert("รูปแบบสมการไม่ถูกต้อง! กรุณาใส่ในรูปแบบ x + by = c");
-                        return;
-                    }
-                    const a = parseFloat(match[1] || 1);
-                    const b = parseFloat(match[2].replace(/\s+/g, ''));
-                    const c = parseFloat(match[3]);
-                    const y = (c - a * x) / b;
-                    yValues.push(y);
+            const equations = Array.from(document.querySelectorAll('input[name="equation"]')).map(input => input.value);
+            const xStart = parseInt(document.getElementById('xStart').value);
+            const xEnd = parseInt(document.getElementById('xEnd').value);
+
+            tablesContainer.innerHTML = '';
+            const xValues = Array.from({ length: xEnd - xStart + 1 }, (_, i) => xStart + i);
+            const datasets = [];
+
+            equations.forEach((equation, index) => {
+                const match = equation.match(/(-?\d*)x\s*([-+]\s*\d*)y\s*=\s*(-?\d+)/);
+                if (!match) {
+                    alert(`สมการที่ ${index + 1} ไม่ถูกต้อง! กรุณาใส่ในรูปแบบ x + by = c`);
+                    return;
                 }
-                yValuesList.push(yValues);
-            }
 
-            resultsDiv.innerHTML = '';
-            equations.forEach((eq, i) => {
-                const table = document.createElement('table');
-                const header = `<tr><th colspan="2">${eq}</th></tr><tr><th>x</th><th>y</th></tr>`;
-                table.innerHTML = header;
-                xValues.forEach((x, j) => {
-                    const row = `<tr><td>${x}</td><td>${yValuesList[j][i].toFixed(2)}</td></tr>`;
-                    table.innerHTML += row;
+                const a = parseFloat(match[1] || 1);
+                const b = parseFloat(match[2].replace(/\s+/g, ''));
+                const c = parseFloat(match[3]);
+
+                if (b === 0) {
+                    alert(`สมการที่ ${index + 1} มีค่า b = 0 ไม่สามารถคำนวณได้`);
+                    return;
+                }
+
+                const yValues = xValues.map(x => (c - a * x) / b);
+                datasets.push({
+                    label: `สมการที่ ${index + 1}: ${equation}`,
+                    data: yValues,
+                    borderColor: `hsl(${index * 360 / equations.length}, 70%, 50%)`,
+                    backgroundColor: `hsla(${index * 360 / equations.length}, 70%, 50%, 0.2)`,
+                    fill: false
                 });
-                resultsDiv.appendChild(table);
+
+                const table = document.createElement('table');
+                table.innerHTML = `
+                    <tr>
+                        <th>x</th>
+                        <th>y</th>
+                    </tr>
+                    ${xValues.map((x, i) => `<tr><td>${x}</td><td>${yValues[i].toFixed(2)}</td></tr>`).join('')}
+                `;
+                tablesContainer.appendChild(table);
             });
 
             if (chart) {
                 chart.destroy();
             }
-            const datasets = equations.map((eq, i) => ({
-                label: eq,
-                data: xValues.map((x, j) => ({ x, y: yValuesList[j][i] })),
-                borderColor: `hsl(${(i * 360) / equations.length}, 100%, 50%)`,
-                backgroundColor: 'transparent',
-            }));
-
-            chart = new Chart(ctx, {
-                type: 'scatter',
-                data: { datasets },
+            chart = new Chart(graphCanvas, {
+                type: 'line',
+                data: {
+                    labels: xValues,
+                    datasets
+                },
                 options: {
                     responsive: true,
-                    scales: {
-                        x: { title: { display: true, text: 'ค่า x' }, grid: { color: '#444' } },
-                        y: { title: { display: true, text: 'ค่า y' }, grid: { color: '#444' } },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        zoom: {
+                            zoom: {
+                                wheel: { enabled: true },
+                                pinch: { enabled: true },
+                                mode: 'xy',
+                            },
+                            pan: { enabled: true, mode: 'xy' }
+                        }
                     },
-                },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'ค่า x' },
+                            grid: { color: 'rgba(75, 0, 130, 0.2)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'ค่า y' },
+                            grid: { color: 'rgba(75, 0, 130, 0.2)' }
+                        }
+                    }
+                }
             });
-        }
+        });
     </script>
 </body>
 </html>
