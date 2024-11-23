@@ -110,16 +110,32 @@
             const xStart = parseInt(document.getElementById('xStart').value);
             const xEnd = parseInt(document.getElementById('xEnd').value);
 
-            const match = equation.match(/(-?\d*)x\s*([-+]\s*\d*)y\s*=\s*(-?\d+)/);
+            // แยกสมการจากรูปแบบ x, y, ค่าคงที่
+            const match = equation.match(/([+-]?\d*\.?\d*)x\s*([+-]?\s*\d*\.?\d*)y\s*=\s*([+-]?\d*\.?\d*)/);
+            
+            // ตรวจสอบรูปแบบสมการ
             if (!match) {
-                alert("รูปแบบสมการไม่ถูกต้อง! กรุณาใส่ในรูปแบบ x + by = c");
-                return;
+                const simpleMatch = equation.match(/([+-]?\d*\.?\d*)x\s*([+-]?\d*\.?\d*)/);
+                if (simpleMatch) {
+                    // หากสมการมีแค่ x และค่าคงที่
+                    const a = parseFloat(simpleMatch[1] || 1);
+                    const b = parseFloat(simpleMatch[2] || 0);
+                    const c = 0;
+                    processEquation(a, b, c, xStart, xEnd);
+                } else {
+                    alert("รูปแบบสมการไม่ถูกต้อง! กรุณาใส่ในรูปแบบที่ถูกต้อง");
+                }
+            } else {
+                // หากสมการมี x, y และค่าคงที่
+                const a = parseFloat(match[1] || 1);
+                const b = parseFloat(match[2].replace(/\s+/g, ''));
+                const c = parseFloat(match[3]);
+                processEquation(a, b, c, xStart, xEnd);
             }
+        });
 
-            const a = parseFloat(match[1] || 1);
-            const b = parseFloat(match[2].replace(/\s+/g, ''));
-            const c = parseFloat(match[3]);
-
+        // ฟังก์ชั่นคำนวณและแสดงผลลัพธ์
+        function processEquation(a, b, c, xStart, xEnd) {
             if (b === 0) {
                 alert("ค่า b ต้องไม่เท่ากับ 0");
                 return;
@@ -139,7 +155,7 @@
                 row.innerHTML = `<td>${x}</td><td>${y.toFixed(2)}</td>`;
                 resultTable.appendChild(row);
             }
-        });
+        }
     </script>
 </body>
 </html>
