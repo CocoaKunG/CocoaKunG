@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำนวณค่า y</title>
+    <link rel="icon" href="https://img2.pic.in.th/pic/IMG_20240430_120908_163.jpg" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #4B0082;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #4B0082;
+        }
+        form {
+            margin: 0 auto;
+            max-width: 600px;
+            background-color: #f5f5ff;
+            border: 2px solid #4B0082;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #4B0082;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #6a0dad;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #4B0082;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #4B0082;
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4B0082;
+        }
+        footer span {
+            font-size: 24px;
+            display: block;
+            margin-top: 5px;
+            text-shadow: 1px 1px 5px rgba(75, 0, 130, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>โปรแกรมคำนวณค่า y</h1>
+    <form id="inputForm">
+        <label for="equation">ใส่สมการ (เช่น x - 3y = 9):</label>
+        <input type="text" id="equation" required>
+        <label for="xStart">ค่าเริ่มต้นของ x:</label>
+        <input type="number" id="xStart" required>
+        <label for="xEnd">ค่าจบของ x:</label>
+        <input type="number" id="xEnd" required>
+        <button type="submit">คำนวณ</button>
+    </form>
+    <h2>ผลลัพธ์:</h2>
+    <table border="1" id="resultTable">
+        <tr>
+            <th>x</th>
+            <th>y</th>
+        </tr>
+    </table>
+    <footer>
+        <span>© CocoaKunG</span>
+    </footer>
+    <script>
+        const form = document.getElementById('inputForm');
+        const resultTable = document.getElementById('resultTable');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const equation = document.getElementById('equation').value;
+            const xStart = parseInt(document.getElementById('xStart').value);
+            const xEnd = parseInt(document.getElementById('xEnd').value);
+
+            const match = equation.match(/(-?\d*)x\s*([-+]\s*\d*)y\s*=\s*(-?\d+)/);
+            if (!match) {
+                alert("รูปแบบสมการไม่ถูกต้อง! กรุณาใส่ในรูปแบบ x + by = c");
+                return;
+            }
+
+            const a = parseFloat(match[1] || 1);
+            const b = parseFloat(match[2].replace(/\s+/g, ''));
+            const c = parseFloat(match[3]);
+
+            if (b === 0) {
+                alert("ค่า b ต้องไม่เท่ากับ 0");
+                return;
+            }
+
+            resultTable.innerHTML = `
+                <tr>
+                    <th>x</th>
+                    <th>y</th>
+                </tr>
+            `;
+
+            for (let x = xStart; x <= xEnd; x++) {
+                const y = (c - a * x) / b;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${x}</td><td>${y.toFixed(2)}</td>`;
+                resultTable.appendChild(row);
+            }
+        });
+    </script>
+</body>
+</html>
