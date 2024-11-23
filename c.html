@@ -19,17 +19,19 @@
         }
         form {
             margin: 0 auto;
-            max-width: 500px;
+            max-width: 100%;
+            width: 90%;
             background-color: #f5f5ff; /* พื้นหลังขาวอ่อน */
             border: 2px solid #4B0082; /* กรอบสีม่วง */
             padding: 20px;
             border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
         label {
             display: block;
             margin: 10px 0 5px;
         }
-        input[type="number"] {
+        input[type="text"], input[type="number"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -44,6 +46,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            width: 100%;
         }
         button:hover {
             background-color: #6a0dad;
@@ -65,24 +68,29 @@
         canvas {
             display: block;
             margin: 20px auto;
+            width: 100%;
+            max-width: 400px;
         }
         footer {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
             color: #4B0082;
-            font-size: 14px;
+        }
+        footer span {
+            font-size: 24px;
+            display: block;
+            margin-top: 5px;
+            text-shadow: 1px 1px 5px rgba(75, 0, 130, 0.5);
         }
     </style>
 </head>
 <body>
     <h1>โปรแกรมหาค่า y และสร้างกราฟ</h1>
     <form id="inputForm">
-        <label for="a">ค่า a:</label>
-        <input type="number" id="a" required>
-        <label for="b">ค่า b:</label>
-        <input type="number" id="b" required>
-        <label for="c">ค่า c:</label>
-        <input type="number" id="c" required>
+        <label for="equation">ใส่สมการ (เช่น x - 3y = 9):</label>
+        <input type="text" id="equation" required>
         <label for="xStart">ค่าเริ่มต้นของ x:</label>
         <input type="number" id="xStart" required>
         <label for="xEnd">ค่าจบของ x:</label>
@@ -98,7 +106,7 @@
     </table>
     <canvas id="graph" width="400" height="200"></canvas>
     <footer>
-        © CocoaKunG
+        <span>© CocoaKunG</span>
     </footer>
     <script>
         const form = document.getElementById('inputForm');
@@ -111,13 +119,22 @@
             event.preventDefault();
 
             // รับค่าจากฟอร์ม
-            const a = parseFloat(document.getElementById('a').value);
-            const b = parseFloat(document.getElementById('b').value);
-            const c = parseFloat(document.getElementById('c').value);
+            const equation = document.getElementById('equation').value;
             const xStart = parseInt(document.getElementById('xStart').value);
             const xEnd = parseInt(document.getElementById('xEnd').value);
 
-            // ตรวจสอบค่า b ไม่ให้เป็น 0 (ป้องกันหารด้วย 0)
+            // แยกสมการเป็น a, b และ c จากรูปแบบ ax + by = c
+            const match = equation.match(/(-?\d*)x\s*([-+]\s*\d*)y\s*=\s*(-?\d+)/);
+            if (!match) {
+                alert("รูปแบบสมการไม่ถูกต้อง! กรุณาใส่ในรูปแบบ x + by = c");
+                return;
+            }
+
+            const a = parseFloat(match[1] || 1); // ถ้าไม่มีตัวเลขหน้าตัวแปร ถือว่าเป็น 1
+            const b = parseFloat(match[2].replace(/\s+/g, '')); // ลบช่องว่าง
+            const c = parseFloat(match[3]);
+
+            // ตรวจสอบว่า b ไม่เป็น 0
             if (b === 0) {
                 alert("ค่า b ต้องไม่เท่ากับ 0");
                 return;
@@ -188,4 +205,4 @@
         });
     </script>
 </body>
-  </html>
+</html>
