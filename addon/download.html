@@ -55,9 +55,15 @@
                     const randomCode = Math.floor(10000 + Math.random() * 90000);
                     const fileName = `Cocoa_Pack_${randomCode}.mcaddon`;
 
-                    // สร้างลิงก์ดาวน์โหลด
+                    // ข้อมูลไฟล์ที่ต้องการดาวน์โหลด
+                    const fileContent = "นี่คือข้อมูลในไฟล์ .mcaddon ที่คุณต้องการดาวน์โหลด"; // แทนที่ด้วยเนื้อหาจริงของไฟล์
+
+                    // สร้าง Blob object สำหรับดาวน์โหลด
+                    const blob = new Blob([fileContent], { type: 'application/octet-stream' });
+
+                    // สร้าง URL สำหรับดาวน์โหลด
                     const link = document.createElement("a");
-                    link.href = "./Cocoa_Pack.mcaddon"; // เปลี่ยนเป็น URL จริงของไฟล์
+                    link.href = URL.createObjectURL(blob);
                     link.download = fileName;
                     document.body.appendChild(link);
 
