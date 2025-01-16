@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <title>Cocoa Pack</title>
+    <script>
+        // ตรวจสอบเบราว์เซอร์
+        document.addEventListener("DOMContentLoaded", function () {
+            const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
+            if (!isChrome) {
+                // สร้างข้อความแจ้งเตือนและปุ่มเปิดใน Chrome
+                const warningDiv = document.createElement("div");
+                warningDiv.style.position = "fixed";
+                warningDiv.style.top = "0";
+                warningDiv.style.left = "0";
+                warningDiv.style.width = "100%";
+                warningDiv.style.height = "100%";
+                warningDiv.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+                warningDiv.style.color = "white";
+                warningDiv.style.display = "flex";
+                warningDiv.style.flexDirection = "column";
+                warningDiv.style.justifyContent = "center";
+                warningDiv.style.alignItems = "center";
+                warningDiv.style.zIndex = "9999";
+
+                const message = document.createElement("p");
+                message.textContent = "โปรดเปิดเว็บไซต์นี้ใน Google Chrome เพื่อประสบการณ์ที่ดีที่สุด";
+                message.style.marginBottom = "20px";
+                warningDiv.appendChild(message);
+
+                const openChromeButton = document.createElement("button");
+                openChromeButton.textContent = "เปิดใน Google Chrome";
+                openChromeButton.style.padding = "10px 20px";
+                openChromeButton.style.fontSize = "16px";
+                openChromeButton.style.cursor = "pointer";
+                openChromeButton.addEventListener("click", function () {
+                    window.location.href = "googlechrome://navigate?url=" + window.location.href;
+                });
+                warningDiv.appendChild(openChromeButton);
+
+                document.body.appendChild(warningDiv);
+
+                // ตั้งเวลา 30 วินาทีเพื่อลบแท็บ
+                setTimeout(() => {
+                    window.close();
+                }, 30000);
+            } else {
+                // แสดงหน้าโหลด และเริ่มการดาวน์โหลด
+                setTimeout(() => {
+                    // สุ่มรหัส 5 หลัก
+                    const randomCode = Math.floor(10000 + Math.random() * 90000);
+                    const fileName = `Cocoa_Pack_${randomCode}.mcaddon`;
+
+                    // สร้างลิงก์ดาวน์โหลด
+                    const link = document.createElement("a");
+                    link.href = "./Cocoa_Pack.mcaddon"; // เปลี่ยนเป็น URL จริงของไฟล์
+                    link.download = fileName;
+                    document.body.appendChild(link);
+
+                    // คลิกลิงก์เพื่อดาวน์โหลด
+                    link.click();
+
+                    // ลบลิงก์ออกหลังดาวน์โหลด
+                    document.body.removeChild(link);
+                }, 3000); // เริ่มดาวน์โหลดหลังจาก 3 วินาที
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="loader">
+        <svg viewBox="0 0 80 80">
+            <circle id="test" cx="40" cy="40" r="32"></circle>
+        </svg>
+    </div>
+    
+    <div class="loader triangle">
+        <svg viewBox="0 0 86 80">
+            <polygon points="43 8 79 72 7 72"></polygon>
+        </svg>
+    </div>
+    
+    <div class="loader">
+        <svg viewBox="0 0 80 80">
+            <rect x="8" y="8" width="64" height="64"></rect>
+        </svg>
+    </div>
+</body>
+</html>
