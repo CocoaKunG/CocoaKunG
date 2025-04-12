@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ตัวแก้ข้อความเพี้ยนจาก PDF</title>
+  <style>
+    body {
+      background-color: #ffffff;
+      font-family: 'Prompt', sans-serif;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6A0DAD;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 0 15px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 15px;
+      font-size: 1rem;
+      border-radius: 16px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    button {
+      background-color: #A259FF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      flex: 1;
+      margin: 0 5px;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #8b3dff;
+    }
+
+    .output-container {
+      position: relative;
+      margin-top: 20px;
+    }
+
+    #output {
+      width: 100%;
+      height: 200px;
+      padding: 15px;
+      font-size: 1rem;
+      border-radius: 16px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #6A0DAD;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>แก้ข้อความเพี้ยนจาก PDF</h1>
+    <textarea id="input" placeholder="วางข้อความที่มีอักษรเพี้ยนที่นี่..."></textarea>
+    <div class="button-container">
+      <button onclick="fixText()">แปลงข้อความ</button>
+      <button onclick="clearText()">ล้าง</button>
+    </div>
+    <div class="output-container">
+      <textarea id="output" readonly placeholder="ข้อความที่แก้ไขแล้วจะปรากฏที่นี่..."></textarea>
+      <button class="copy-btn" onclick="copyText()">📋</button>
+    </div>
+  </div>
+
+  <script>
+    function fixText() {
+      let inputText = document.getElementById("input").value;
+      
+      // ใช้การแทนที่อักขระเพี้ยน
+      const map = {
+        '': '์',
+        '': 'ๆ',
+        '': 'ๆ',
+        '': '็',
+        '': 'ํ',
+        '': 'ํ',
+        '': '๊',
+        '': '๋',
+        '': '่',
+        '': '้',
+        '': '๊',
+        '': '๋',
+        '': '์',
+        '': 'ํ'
+      };
+      
+      // แปลงข้อความที่มีอักษรเพี้ยนตามที่กำหนด
+      let outputText = inputText.replace(/[\uF700-\uF74D]/g, function(match) {
+        return map[match] || match;
+      });
+
+      document.getElementById("output").value = outputText;
+    }
+
+    function clearText() {
+      document.getElementById("input").value = "";
+      document.getElementById("output").value = "";
+    }
+
+    function copyText() {
+      const output = document.getElementById("output");
+      output.select();
+      document.execCommand("copy");
+    }
+  </script>
+</body>
+</html>
