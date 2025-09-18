@@ -1,21 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading Animation</title>
-    <!-- ลิงก์ไปยังไฟล์ style.css -->
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- แสดงแอนิเมชันด้วยการใช้คลาส .merge -->
-    <div class="merge"></div>
-
-    <script>
-        // ตั้งเวลาในการแสดงหน้าโหลดเป็นเวลา 5 วินาที (5000ms)
-        setTimeout(function() {
-            window.location.href = "https://www.instagram.com/_sitthiph0n?igsh=MTh0bXVsYzZqaDJtYw==";
-        }, 5000);
-    </script>
-</body>
+<!DOCTYPE html>    
+<html lang="th">    
+<head>    
+  <meta charset="utf-8" />    
+  <meta name="viewport" content="width=device-width, initial-scale=1" />    
+  <title>เปิด QR code</title>    
+  <style>    
+    :root{    
+      --purple-1:#a855f7;--purple-2:#7c3aed;--purple-3:#c084fc;--muted:#6b7280;    
+    }    
+    *{box-sizing:border-box;margin:0;padding:0}    
+    body{    
+      min-height:100vh;display:flex;align-items:center;justify-content:center;    
+      font-family:"SF Pro Display","Prompt","Noto Sans Thai",sans-serif;    
+      background:#fff;color:#222;padding:20px;    
+    }    
+    .container{    
+      background:#fff;border-radius:20px;padding:40px 32px 60px;    
+      box-shadow:0 20px 40px rgba(0,0,0,.1);    
+      text-align:center;max-width:480px;width:100%;    
+    }    
+    .title{    
+      font-size:1.75rem;font-weight:700;margin-bottom:20px;    
+      background:linear-gradient(135deg,var(--purple-2),var(--purple-1));    
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;    
+    }    
+    .ios-btn{    
+      padding:14px 26px;border:none;border-radius:16px;font-size:1.05rem;    
+      font-weight:600;color:#fff;cursor:pointer;    
+      background:linear-gradient(135deg,var(--purple-3),var(--purple-1) 50%,var(--purple-2) 100%);    
+      box-shadow:0 8px 20px rgba(168,85,247,.4);    
+      transition:transform .2s cubic-bezier(.34,1.56,.64,1),opacity .25s ease;    
+      position:relative;overflow:hidden;    
+    }    
+    .ios-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 28px rgba(168,85,247,.5)}    
+    .ios-btn:active{transform:scale(.92);opacity:.85}    
+    .credits{margin-top:28px;font-size:.9rem;color:var(--muted);line-height:1.6;text-align:left}    
+    .credits-title{font-weight:600;margin-bottom:8px}    
+    .credits-list{    
+      display:grid;    
+      grid-template-columns:1fr 80px; /* คอลัมน์ชื่อ + คอลัมน์เลขที่ */    
+      gap:6px 12px;    
+    }    
+    .name{display:flex;align-items:center;gap:6px}    
+    .number{text-align:right;font-weight:600;color:var(--purple-2)}    
+    footer{    
+      margin-top:32px;font-size:.8rem;color:#999;text-align:center;    
+      border-top:1px solid #eee;padding-top:12px;    
+    }    
+  </style>    
+</head>    
+<body>    
+  <div class="container">    
+    <h1 class="title">เปิด QR Code</h1>    
+    <button id="openBtn" class="ios-btn">เปิด QR Code</button>    
+    
+    <div class="credits">    
+      <div class="credits-title">🗒️📙 สมุดเล่มเล็ก ม.4/2 ปี2568</div>    
+      <div class="credits-list">    
+        <div class="name">👨‍🎓 นายคัมคุณ ประทานัง</div><div class="number">เลขที่ 1</div>    
+        <div class="name">👨‍🎓 นายณัฐกิตติ์ ฤทธิ์นาคา</div><div class="number">เลขที่ 2</div>    
+        <div class="name">👨‍🎓 นายนันทิพัฒน์ พิษณุ</div><div class="number">เลขที่ 3</div>    
+        <div class="name">👨‍🎓 นายปรเมศ ทรัพย์พิสุทธิ์</div><div class="number">เลขที่ 5</div>    
+        <div class="name">👨‍🎓 นายพีรวิชญ์ ค้อจันทา</div><div class="number">เลขที่ 6</div>    
+        <div class="name">👨‍🎓 นายสิทธิพล นามวิชา</div><div class="number">เลขที่ 7</div>    
+      </div>    
+    </div>    
+    <footer>© 2025 by: Sitthiphon Namvicha</footer>    
+  </div>    
+  <script src="script.js"></script>    
+</body>    
 </html>
