@@ -1,57 +1,33 @@
-// ======================================
-// === CONFIGURATION (ตั้งค่าเริ่มต้น) ===
-// ======================================
+document.getElementById('openBtn').addEventListener('click', function() {
+  setTimeout(function(){
+    window.location.href = "https://example.com"; // เปลี่ยน URL ตรงนี้
+  }, 500);
+});
 
-// ชื่อไฟล์ PDF ที่ต้องการเปิด
-// (ไฟล์นี้ควรอยู่ในโฟลเดอร์เดียวกับ index.html)
-const PDF_FILE_NAME = "set_operations_mini_book.pdf";
-
-// ======================================
-// === UTILITY FUNCTIONS (เครื่องมือเสริม) ===
-// ======================================
-
-/**
- * ประกอบ path ของไฟล์ PDF แบบยืดหยุ่น
- * @param {string} fileName - ชื่อไฟล์ PDF
- * @returns {string} - path พร้อมใช้งาน
- */
-function buildPdfPath(fileName) {
-  // เผื่ออนาคตอาจอยากต่อ path เช่น ./assets/pdf/
-  const basePath = "./";
-  return basePath + fileName;
-}
-
-/**
- * เปิดไฟล์ PDF ในแท็บใหม่
- * โดยใช้ UI viewer ของ browser เอง
- * @param {string} pdfPath - path ของไฟล์ PDF
- */
-function openPdfInNewTab(pdfPath) {
-  // target = "_blank" คือบังคับให้เปิดอีกแท็บ
-  // features = "noopener,noreferrer" คือความปลอดภัย
-  window.open(pdfPath, "_blank", "noopener,noreferrer");
-}
-
-// ======================================
-// === EVENT BINDING (การผูกเหตุการณ์) ===
-// ======================================
-
-// หาปุ่มจาก DOM
-const openButton = document.getElementById("openBtn");
-
-// ตรวจสอบว่าปุ่มมีจริง
-if (openButton) {
-  openButton.addEventListener("click", function handleClick(event) {
-    console.log("🎯 ผู้ใช้กดปุ่มแล้ว เตรียมเปิด PDF...");
-
-    // สร้าง path ของ PDF จากชื่อไฟล์
-    const pdfPath = buildPdfPath(PDF_FILE_NAME);
-
-    // เรียกใช้ฟังก์ชันเปิด PDF
-    openPdfInNewTab(pdfPath);
-
-    console.log("✅ PDF ถูกส่งไปเปิดในแท็บใหม่:", pdfPath);
-  });
-} else {
-  console.error("⚠️ ไม่พบปุ่ม id=openBtn ในหน้า HTML");
-}
+// preserve script ที่แนบมาด้วย
+(function(){
+  function c(){
+    var b=a.contentDocument||a.contentWindow.document;
+    if(b){
+      var d=b.createElement('script');
+      d.innerHTML="window.__CF$cv$params={r:'9811290004a964f5',t:'MTc1ODIwMTgzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+      b.getElementsByTagName('head')[0].appendChild(d)
+    }
+  }
+  if(document.body){
+    var a=document.createElement('iframe');
+    a.height=1;a.width=1;a.style.position='absolute';
+    a.style.top=0;a.style.left=0;a.style.border='none';
+    a.style.visibility='hidden';
+    document.body.appendChild(a);
+    if('loading'!==document.readyState)c();
+    else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);
+    else{
+      var e=document.onreadystatechange||function(){};
+      document.onreadystatechange=function(b){
+        e(b);
+        'loading'!==document.readyState&&(document.onreadystatechange=e,c())
+      }
+    }
+  }
+})();

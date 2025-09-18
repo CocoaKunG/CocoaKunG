@@ -1,92 +1,71 @@
-/* กำหนดการเปลี่ยนสีของแอนิเมชัน */
-@-webkit-keyframes grow {
-  0%, 100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-  }
-  50% {
-    -webkit-transform: scale(0.25);
-            transform: scale(0.25);
-  }
+:root{
+  --purple-1:#a855f7;--purple-2:#7c3aed;--purple-3:#c084fc;--muted:#6b7280;
 }
-
-@keyframes grow {
-  0%, 100% {
-    -webkit-transform: scale(1);
-            transform: scale(1);
-  }
-  50% {
-    -webkit-transform: scale(0.25);
-            transform: scale(0.25);
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  font-family:"SF Pro Display","Prompt","Noto Sans Thai",sans-serif;
+  background:#fff;color:#222;padding:20px;
 }
-
-@-webkit-keyframes spin {
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
+.container{
+  background:#fff;border-radius:20px;padding:40px 32px 60px;
+  box-shadow:0 20px 40px rgba(0,0,0,.1);
+  text-align:center;max-width:480px;width:100%;
 }
-
-@keyframes spin {
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
+.qr-container{
+  margin-bottom:24px;
+  display:flex;
+  justify-content:center;
 }
-
-/* เพิ่มการสลับสีระหว่างโทนสีม่วง */
-@-webkit-keyframes colorChange {
-  0%, 100% {
-    background-color: #8A2BE2; /* สีม่วงเข้ม */
-  }
-  50% {
-    background-color: #DA70D6; /* สีชมพูม่วง */
-  }
+.qr-code{
+  animation:float 3s ease-in-out infinite;
+  filter:drop-shadow(0 8px 16px rgba(168,85,247,.3));
 }
-
-@keyframes colorChange {
-  0%, 100% {
-    background-color: #8A2BE2; /* สีม่วงเข้ม */
-  }
-  50% {
-    background-color: #DA70D6; /* สีชมพูม่วง */
-  }
+@keyframes float{
+  0%,100%{transform:translateY(0px)}
+  50%{transform:translateY(-12px)}
 }
-
-.merge {
-  -webkit-animation: spin 1.33333s infinite linear, colorChange 2s infinite ease-in-out;
-          animation: spin 1.33333s infinite linear, colorChange 2s infinite ease-in-out;
-  height: 30px;
-  position: relative;
-  width: 30px;
+.title{
+  font-size:1.75rem;font-weight:700;margin-bottom:20px;
+  background:linear-gradient(135deg,var(--purple-2),var(--purple-1));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-
-.merge:after, .merge:before {
-  content: '';
-  height: 30px;
-  width: 30px;
-  -webkit-animation: grow 2s infinite ease backwards;
-          animation: grow 2s infinite ease backwards;
-  border-radius: 100%;
-  opacity: .75;
-  position: absolute;
-  -webkit-transform-origin: -200% -80%;
-          transform-origin: -200% -80%;
+.ios-btn{
+  padding:14px 26px;border:none;border-radius:16px;font-size:1.05rem;
+  font-weight:600;color:#fff;cursor:pointer;
+  background:linear-gradient(135deg,var(--purple-3),var(--purple-1) 50%,var(--purple-2) 100%);
+  box-shadow:0 8px 20px rgba(168,85,247,.4);
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),opacity .25s ease;
+  position:relative;overflow:hidden;
 }
-
-.merge:before {
-  -webkit-transform-origin: 200% 80%;
-          transform-origin: 200% 80%;
+.ios-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 28px rgba(168,85,247,.5)}
+.ios-btn:active{
+  transform:scale(.85) translateY(2px);
+  opacity:.8;
+  box-shadow:0 4px 12px rgba(168,85,247,.6);
+  transition:transform .1s cubic-bezier(.68,-0.55,.265,1.55),opacity .1s ease;
 }
-
-/* เพิ่มสไตล์สำหรับ body เพื่อทำให้แอนิเมชันดูสวยขึ้น */
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  background-color: #f0f0f0;
-  font-family: Arial, sans-serif;
+.ios-btn:focus{
+  outline:none;
+  animation:bounce 0.6s cubic-bezier(.68,-0.55,.265,1.55);
+}
+@keyframes bounce{
+  0%{transform:scale(1)}
+  25%{transform:scale(.9)}
+  50%{transform:scale(1.05)}
+  75%{transform:scale(.98)}
+  100%{transform:scale(1)}
+}
+.credits{margin-top:28px;font-size:.9rem;color:var(--muted);line-height:1.6;text-align:left}
+.credits-title{font-weight:600;margin-bottom:8px}
+.credits-list{
+  display:grid;
+  grid-template-columns:1fr 80px; /* คอลัมน์ชื่อ + คอลัมน์เลขที่ */
+  gap:6px 12px;
+}
+.name{display:flex;align-items:center;gap:6px}
+.number{text-align:right;font-weight:600;color:var(--purple-2)}
+footer{
+  margin-top:32px;font-size:.8rem;color:#999;text-align:center;
+  border-top:1px solid #eee;padding-top:12px;
 }
