@@ -1,6 +1,6 @@
 document.getElementById('openBtn').addEventListener('click', function() {
   setTimeout(function(){
-    window.location.href = "https://example.com"; // เปลี่ยน URL ตรงนี้
+    window.location.href = "https://drive.google.com/file/d/1f9zWscpUbmEzMSRb74JMImIDfqnsySSR/view?usp=sharing"; // เปลี่ยน URL ตรงนี้
   }, 500);
 });
 

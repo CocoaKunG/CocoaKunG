@@ -56,13 +56,31 @@ body{
   75%{transform:scale(.98)}
   100%{transform:scale(1)}
 }
-.credits{margin-top:28px;font-size:.9rem;color:var(--muted);line-height:1.6;text-align:left}
-.credits-title{font-weight:600;margin-bottom:8px}
-.credits-list{
-  display:grid;
-  grid-template-columns:1fr 80px; /* คอลัมน์ชื่อ + คอลัมน์เลขที่ */
-  gap:6px 12px;
+.credits {
+  margin-top: 28px;
+  font-size: .9rem;
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: left;
 }
+
+.credits-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.credits-list {
+  display: grid;
+  grid-template-columns: auto 60px; /* คอลัมน์ชื่อ + คอลัมน์เลขที่ */
+  gap: 6px 12px;
+}
+
+.credits-list .name {
+  white-space: nowrap;       /* บังคับไม่ให้ชื่อขึ้นบรรทัดใหม่ */
+  overflow: hidden;          /* กันไม่ให้ล้น */
+  text-overflow: ellipsis;   /* ถ้ายาวเกินไปจะขึ้น ... */
+}
+
 .name{display:flex;align-items:center;gap:6px}
 .number{text-align:right;font-weight:600;color:var(--purple-2)}
 footer{
