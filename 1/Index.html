@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎰 เกมสุ่ม 9 ช่อง</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-orange-50 min-h-screen flex flex-col items-center justify-center p-6">
+
+<div id="loginPage" class="w-full max-w-sm bg-white rounded-xl shadow-lg p-6 border-2 border-orange-200">
+  <h1 class="text-2xl font-bold text-orange-600 mb-2 text-center">เข้าสู่ระบบ</h1>
+  <form id="loginForm" class="space-y-4">
+    <input id="username" type="text" placeholder="ชื่อผู้ใช้" required class="w-full border-2 border-orange-300 p-2 rounded-lg">
+    <input id="password" type="password" placeholder="รหัสผ่าน" required class="w-full border-2 border-orange-300 p-2 rounded-lg">
+    <button class="w-full bg-orange-500 text-white font-bold py-2 rounded-lg">เข้าสู่ระบบ</button>
+  </form>
+  <p id="loginError" class="text-red-500 mt-2 hidden text-center">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</p>
+</div>
+
+<div id="gamePage" class="hidden text-center w-full max-w-lg mt-6">
+  <h1 class="text-3xl font-bold text-orange-600 mb-4">🎲 เกมสุ่ม 9 ช่อง</h1>
+  <p>ยินดีต้อนรับ <span id="playerName"></span></p>
+
+  <div class="mt-6">
+    <p class="text-lg text-gray-600">สิทธิ์ในการสุ่ม: <span id="chance" class="font-bold text-orange-600">0</span> ครั้ง</p>
+    <p class="text-sm text-gray-500">สิทธิ์เพิ่มโบนัสที่ใช้แล้ว: <span id="bonusUsed" class="text-orange-500 font-bold">0</span>/2</p>
+  </div>
+
+  <div class="mt-6 space-x-3">
+    <button id="randomBtn" class="bg-orange-500 text-white px-4 py-2 rounded-lg">🎰 สุ่ม</button>
+    <button id="bonusBtn" class="bg-red-500 text-white px-4 py-2 rounded-lg">🎁 รับสิทธิ์ +1</button>
+    <button id="logoutBtn" class="bg-gray-400 text-white px-4 py-2 rounded-lg">ออกจากระบบ</button>
+  </div>
+
+  <div id="result" class="mt-6 text-xl text-orange-600 font-bold"></div>
+</div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbzeJR35BFyjpmHseewQZSQTvoClzxYTvbt9L9-w-UKwpOEgfWPLbcOGnQHHQWnvCpv_/exec';
+let token = null;
+
+loginForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const username = usernameInput.value = username.value;
+  const password = passwordInput.value = password.value;
+
+  const res = await fetch(`${API_URL}?action=login&username=${username}&password=${password}`);
+  const data = await res.json();
+  if (data.success) {
+    sessionStorage.setItem('user', username);
+    token = data.token;
+    playerName.textContent = username;
+    chance.textContent = data.chances;
+    bonusUsed.textContent = data.bonusUsed;
+    togglePages('game');
+  } else loginError.classList.remove('hidden');
+});
+
+randomBtn.addEventListener('click', async () => {
+  const username = sessionStorage.getItem('user');
+  const res = await fetch(`${API_URL}?action=random&username=${username}&token=${token}`);
+  const data = await res.json();
+  result.textContent = data.message;
+  if (data.success) {
+    chance.textContent = data.chances;
+  }
+});
+
+bonusBtn.addEventListener('click', async () => {
+  const username = sessionStorage.getItem('user');
+  const res = await fetch(`${API_URL}?action=bonus&username=${username}&token=${token}`);
+  const data = await res.json();
+  result.textContent = data.message;
+  if (data.success) {
+    chance.textContent = data.chances;
+    bonusUsed.textContent = data.bonusUsed;
+  }
+});
+
+logoutBtn.addEventListener('click', () => {
+  sessionStorage.clear();
+  token = null;
+  togglePages('login');
+});
+
+function togglePages(page) {
+  if (page === 'game') {
+    loginPage.classList.add('hidden');
+    gamePage.classList.remove('hidden');
+  } else {
+    loginPage.classList.remove('hidden');
+    gamePage.classList.add('hidden');
+  }
+}
+</script>
+</body>
+</html>
